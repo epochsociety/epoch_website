@@ -1,7 +1,19 @@
 import { Link, useLocation } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
-import { Sparkles, User, LogOut, Home, Calendar, Image, Users, HelpCircle, Mail, MoreHorizontal, X } from "lucide-react";
+import {
+  Sparkles,
+  User,
+  LogOut,
+  Home,
+  Calendar,
+  Image,
+  Users,
+  HelpCircle,
+  Mail,
+  MoreHorizontal,
+  X,
+} from "lucide-react";
 import { getSession, logout, type Session } from "@/lib/auth";
 
 const links = [
@@ -69,12 +81,20 @@ export function Navbar() {
                     activeProps={{ className: "!text-foreground" }}
                   >
                     {({ isActive }) => (
-                      <motion.div whileTap={{ scale: 0.95 }} className="flex items-center justify-center">
+                      <motion.div
+                        whileTap={{ scale: 0.95 }}
+                        className="flex items-center justify-center"
+                      >
                         {isActive && (
                           <motion.span
                             layoutId="nav-pill"
                             className="absolute inset-0 rounded-full bg-soft-gradient shadow-soft border border-white/10"
-                            transition={{ type: "spring", stiffness: 400, damping: 30, mass: 0.8 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 400,
+                              damping: 30,
+                              mass: 0.8,
+                            }}
                           />
                         )}
                         <span className="relative z-10">{l.label}</span>
@@ -88,13 +108,11 @@ export function Navbar() {
             {session ? (
               <div className="flex items-center gap-1 pr-1">
                 <Link
-                  to={session.role === "developer" ? "/developer" : "/events"}
+                  to={session.role === "developer" ? "/developer" : "/faculty"}
                   className="flex items-center gap-2 px-3 py-2 rounded-full bg-brand-gradient text-white text-sm font-medium shadow-soft hover:shadow-glow transition"
                 >
                   <User className="w-3.5 h-3.5" />
-                  <span className="inline capitalize">
-                    {session.role}
-                  </span>
+                  <span className="inline capitalize">{session.role}</span>
                 </Link>
                 <button
                   onClick={() => {
@@ -108,7 +126,17 @@ export function Navbar() {
                   <LogOut className="w-4 h-4" />
                 </button>
               </div>
-            ) : null}
+            ) : (
+              <div className="flex items-center gap-1 pr-1">
+                <Link
+                  to="/login"
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-muted/65 text-foreground hover:bg-muted text-sm font-medium border border-border/30 hover:border-border/60 shadow-soft transition"
+                >
+                  <User className="w-3.5 h-3.5" />
+                  <span>Login</span>
+                </Link>
+              </div>
+            )}
           </nav>
         </div>
       </motion.header>
@@ -119,7 +147,9 @@ export function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
         className={`fixed top-0 left-0 right-0 z-50 px-4 pt-4 md:hidden transition-all duration-500 ${
-          scrolled ? "bg-background/80 backdrop-blur-md border-b border-border/50 pb-3" : "pb-0"
+          scrolled
+            ? "bg-background/80 backdrop-blur-md border-b border-border/50 pb-3"
+            : "pb-0"
         }`}
       >
         <div className="flex items-center justify-between">
@@ -134,27 +164,39 @@ export function Navbar() {
               Epoch Society
             </span>
           </Link>
-          
+
           {session ? (
-             <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1">
               <Link
-                to={session.role === "developer" ? "/developer" : "/events"}
+                to={session.role === "developer" ? "/developer" : "/faculty"}
                 className="w-8 h-8 rounded-full bg-brand-gradient grid place-items-center text-white shadow-soft"
               >
                 <User className="w-3.5 h-3.5" />
               </Link>
             </div>
-          ) : null}
+          ) : (
+            <div className="flex items-center gap-1">
+              <Link
+                to="/login"
+                className="w-8 h-8 rounded-full bg-muted grid place-items-center text-muted-foreground border border-border/30 shadow-soft"
+              >
+                <User className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          )}
         </div>
       </motion.header>
 
       {/* Mobile Bottom Navbar Expandable */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden flex justify-center w-full pointer-events-none">
-        <motion.nav 
+        <motion.nav
           layout
           transition={{ type: "spring", stiffness: 400, damping: 30, mass: 1 }}
           className="flex items-center gap-1 bg-background/40 backdrop-blur-2xl shadow-[0_16px_32px_-8px_rgba(0,0,0,0.15),inset_0_2px_4px_rgba(255,255,255,0.4)] border border-border/50 rounded-[2.5rem] px-2 py-2 pointer-events-auto overflow-visible relative"
-          style={{ backdropFilter: "blur(32px) saturate(200%)", WebkitBackdropFilter: "blur(32px) saturate(200%)" }}
+          style={{
+            backdropFilter: "blur(32px) saturate(200%)",
+            WebkitBackdropFilter: "blur(32px) saturate(200%)",
+          }}
         >
           <div className="absolute inset-0 bg-brand-gradient opacity-[0.03] mix-blend-overlay pointer-events-none rounded-[2.5rem]" />
           <div className="flex items-center gap-1 relative z-10">
@@ -164,16 +206,36 @@ export function Navbar() {
                 return (
                   <motion.div
                     layout
-                    initial={{ opacity: 0, scale: 0.4, filter: "blur(8px)", y: 10 }}
-                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)", y: 0 }}
-                    exit={{ opacity: 0, scale: 0.4, filter: "blur(8px)", y: 10 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 25, mass: 0.8 }}
+                    initial={{
+                      opacity: 0,
+                      scale: 0.4,
+                      filter: "blur(8px)",
+                      y: 10,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      filter: "blur(0px)",
+                      y: 0,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      scale: 0.4,
+                      filter: "blur(8px)",
+                      y: 10,
+                    }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 400,
+                      damping: 25,
+                      mass: 0.8,
+                    }}
                     key={l.to}
                   >
                     <Link
                       to={l.to}
                       onClick={() => {
-                         if(mobileExpanded) setMobileExpanded(false);
+                        if (mobileExpanded) setMobileExpanded(false);
                       }}
                       activeOptions={{ exact: l.to === "/" }}
                       className="relative flex items-center justify-center w-12 h-12 rounded-full text-muted-foreground transition-colors duration-300"
@@ -185,10 +247,17 @@ export function Navbar() {
                             <motion.span
                               layoutId="mobile-nav-pill"
                               className="absolute inset-0 rounded-full bg-background shadow-[0_4px_12px_rgba(0,0,0,0.08),inset_0_-2px_4px_rgba(0,0,0,0.02)] border border-border/60"
-                              transition={{ type: "spring", stiffness: 400, damping: 28, mass: 0.8 }}
+                              transition={{
+                                type: "spring",
+                                stiffness: 400,
+                                damping: 28,
+                                mass: 0.8,
+                              }}
                             />
                           )}
-                          <Icon className={`w-5 h-5 relative z-10 drop-shadow-sm transition-colors ${isActive ? 'text-brand-purple' : ''}`} />
+                          <Icon
+                            className={`w-5 h-5 relative z-10 drop-shadow-sm transition-colors ${isActive ? "text-brand-purple" : ""}`}
+                          />
                         </>
                       )}
                     </Link>
@@ -197,8 +266,8 @@ export function Navbar() {
               })}
             </AnimatePresence>
           </div>
-          
-          <motion.button 
+
+          <motion.button
             layout
             onClick={() => setMobileExpanded(!mobileExpanded)}
             whileTap={{ scale: 0.85 }}
@@ -209,7 +278,11 @@ export function Navbar() {
               animate={{ rotate: mobileExpanded ? 90 : 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
-              {mobileExpanded ? <X className="w-5 h-5 drop-shadow-sm" /> : <MoreHorizontal className="w-5 h-5 drop-shadow-sm" />}
+              {mobileExpanded ? (
+                <X className="w-5 h-5 drop-shadow-sm" />
+              ) : (
+                <MoreHorizontal className="w-5 h-5 drop-shadow-sm" />
+              )}
             </motion.div>
           </motion.button>
         </motion.nav>
